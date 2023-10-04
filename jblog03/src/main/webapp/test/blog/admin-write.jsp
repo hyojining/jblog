@@ -11,30 +11,36 @@
 </head>
 <body>
 	<div id="container">
-		<c:import url="/WEB-INF/views/includes/header.jsp" />
+		<div id="header">
+			<h1>Spring 이야기</h1>
+			<ul>
+				<li><a href="">로그인</a></li>
+				<li><a href="">로그아웃</a></li>
+				<li><a href="">블로그 관리</a></li>
+			</ul>
+		</div>
 		<div id="wrapper">
 			<div id="content" class="full-screen">
 				<ul class="admin-menu">
-					<li><a href="${pageContext.request.contextPath}/${blog.blogId}/admin/basic">기본설정</a></li>
-					<li><a href="${pageContext.request.contextPath}/${blog.blogId}/admin/category">카테고리</a></li>
+					<li><a href="">기본설정</a></li>
+					<li><a href="">카테고리</a></li>
 					<li class="selected">글작성</li>
 				</ul>
-				<form action="${pageContext.request.contextPath }/${blog.blogId}/admin/write" method="post">
+				<form action="" method="post">
 			      	<table class="admin-cat-write">
 			      		<tr>
 			      			<td class="t">제목</td>
 			      			<td>
 			      				<input type="text" size="60" name="title">
 				      			<select name="category">
-				      				<c:forEach items="${category }" var="vo" varStatus="status">
-				      					<option value="${vo.no }">${vo.name }</option>
-									</c:forEach>
+				      				<option>미분류</option>
+				      				<option>자바</option>
 				      			</select>
 				      		</td>
 			      		</tr>
 			      		<tr>
 			      			<td class="t">내용</td>
-			      			<td><textarea name="contents"></textarea></td>
+			      			<td><textarea name="content"></textarea></td>
 			      		</tr>
 			      		<tr>
 			      			<td>&nbsp;</td>
@@ -44,7 +50,11 @@
 				</form>
 			</div>
 		</div>
-		<c:import url="/WEB-INF/views/includes/footer.jsp" />
+		<div id="footer">
+			<p>
+				<strong>Spring 이야기</strong> is powered by JBlog (c)2016
+			</p>
+		</div>
 	</div>
 </body>
 </html>
