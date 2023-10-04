@@ -22,7 +22,7 @@
 		<![CDATA[
 		update blog
 	   	   set title = #{title }, image = #{image }
-	     where blog_id = #{blogId}      	
+	     where blog_id = #{blogId}
 		]]>
 	</update>
 </mapper>
