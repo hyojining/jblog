@@ -1,7 +1,12 @@
 package com.poscodx.jblog.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,12 +29,17 @@ public class UserController {
 	private CategoryService categoryService;
 	
 	@RequestMapping(value="/join", method=RequestMethod.GET)
-	public String join() {
+	public String join(@ModelAttribute UserVo userVo) {
 		return "user/join";
 	}
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
-	public String join(UserVo userVo) {
+	public String join(@ModelAttribute @Valid UserVo userVo, BindingResult result, Model model) {
+		if(result.hasErrors()) {			
+			model.addAllAttributes(result.getModel());
+			return "user/join";
+		}
+		
 		if(userService.join(userVo)) {
 			blogService.insertBlog(userVo);
 			

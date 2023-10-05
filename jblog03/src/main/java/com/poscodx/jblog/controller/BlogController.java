@@ -73,12 +73,18 @@ public class BlogController {
 	
 	@RequestMapping(value="/admin/basic/update", method=RequestMethod.POST)
 	public String update(@PathVariable("id") String blogId, BlogVo vo, @RequestParam("file") MultipartFile file) {
+		
 		String url = fileuploadService.restore(file);
 		
-		if(url != null) {
-			vo.setImage(url);
-		}
-		vo.setBlogId(blogId);
+	    if (url != null) {
+	        vo.setImage(url);
+	    } else {
+	    	// 이미지를 업로드하지 않은 경우, 기존 이미지 URL을 유지
+	    	BlogVo originalBlog = blogService.getBlog(blogId);
+	        vo.setImage(originalBlog.getImage());
+	    }
+
+	    vo.setBlogId(blogId);
 		
 		blogService.updateAdminBasic(vo);
 		
@@ -129,6 +135,7 @@ public class BlogController {
 	public String adminWrite(@PathVariable("id") String blogId, @RequestParam(value="category", required=true, defaultValue="") Long categoryNo, PostVo postVo) {
 		postVo.setCategoryNo(categoryNo);
 		postService.insertPost(postVo);
+		
 		return "redirect:/" + blogId;
 	}
 }
