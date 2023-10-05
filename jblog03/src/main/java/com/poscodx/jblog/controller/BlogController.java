@@ -42,35 +42,24 @@ public class BlogController {
 		@PathVariable("postNo") Optional<Long> postNo,
 		Model model) {
 		
-		BlogVo blogVo = blogService.getBlog(blogId);
-		
-		List<CategoryVo> categoryList = categoryService.getCategoryById(blogId);
-		
-		List<PostVo> postList = null;
-		PostVo post = null;
-		
-		if(categoryNo.isPresent()) {
-			postList = postService.getPostByCategoryNo(categoryNo.get());
-		} else {
-			if(categoryList.size() > 0) {
-				categoryNo = Optional.of(categoryList.get(0).getNo());
-				postList = postService.getPostByCategoryNo(categoryList.get(0).getNo());
-			}
-		}
-		
-		if(postNo.isPresent()) {
-			post = postService.getPostByNo(postNo.get());
-		} else {
-			if (postList != null && postList.size() > 0) {
-				post = postService.getPostByNo(postList.get(0).getNo());
-			}
-		}
-		
-		model.addAttribute("blog", blogVo);
-		model.addAttribute("categoryNo", categoryNo.get());
-		model.addAttribute("categoryList", categoryList);
-		model.addAttribute("postList", postList);
-		model.addAttribute("post", post);
+	    BlogVo blogVo = blogService.getBlog(blogId);
+	    List<CategoryVo> categoryList = categoryService.getCategoryById(blogId);
+	    
+	    // 카테고리 번호가 없는 경우, 첫 번째 카테고리 번호로 설정
+	    Long selectedCategoryNo = categoryNo.orElse(categoryList.isEmpty() ? null : categoryList.get(0).getNo());
+	    
+	    List<PostVo> postList = postService.getPostByCategoryNo(selectedCategoryNo);
+	    
+	    // 포스트 번호가 없는 경우, 첫 번째 포스트 번호로 설정
+	    Long selectedPostNo = postNo.orElse(postList.isEmpty() ? null : postList.get(0).getNo());
+	    
+	    PostVo post = postService.getPostByNo(selectedPostNo);
+	    
+	    model.addAttribute("blog", blogVo);
+	    model.addAttribute("categoryNo", selectedCategoryNo);
+	    model.addAttribute("categoryList", categoryList);
+	    model.addAttribute("postList", postList);
+	    model.addAttribute("post", post);
 		
 		return "blog/main";
 	}
@@ -86,10 +75,9 @@ public class BlogController {
 	public String update(@PathVariable("id") String blogId, BlogVo vo, @RequestParam("file") MultipartFile file) {
 		String url = fileuploadService.restore(file);
 		
-		if(url == null) {
-			url = vo.getImage();
+		if(url != null) {
+			vo.setImage(url);
 		}
-		vo.setImage(url);
 		vo.setBlogId(blogId);
 		
 		blogService.updateAdminBasic(vo);

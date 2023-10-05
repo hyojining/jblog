@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.poscodx.jblog.vo.BlogVo;
-import com.poscodx.jblog.vo.UserVo;
 
 @Repository
 public class BlogRepository {
