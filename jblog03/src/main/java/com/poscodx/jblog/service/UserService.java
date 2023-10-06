@@ -8,15 +8,15 @@ import com.poscodx.jblog.vo.UserVo;
 
 @Service
 public class UserService {
-	
 	@Autowired
 	private UserRepository userRepository;
-	
-	public boolean join(UserVo vo) {
-		return userRepository.insert(vo);
-	}
 
 	public UserVo getUser(String id, String password) {
 		return userRepository.findByIdAndPassword(id, password);
 	}
+	
+	public boolean join(UserVo userVo) {
+		return userRepository.insert(userVo);
+	}
+
 }

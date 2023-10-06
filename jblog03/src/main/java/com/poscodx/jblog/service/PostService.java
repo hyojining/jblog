@@ -10,7 +10,6 @@ import com.poscodx.jblog.vo.PostVo;
 
 @Service
 public class PostService {
-
 	@Autowired
 	private PostRepository postRepository;
 	
@@ -22,12 +21,12 @@ public class PostService {
 		return postRepository.findByNo(no);
 	}
 
-	public void deletePost(Long categoryNo) {
-		postRepository.delete(categoryNo);
-	}
-
 	public void insertPost(PostVo postVo) {
 		postRepository.insert(postVo);
 	}
 
+	public void deletePost(Long categoryNo) {
+		postRepository.delete(categoryNo);
+	}
+	
 }

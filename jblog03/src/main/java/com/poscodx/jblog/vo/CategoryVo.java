@@ -6,6 +6,7 @@ public class CategoryVo {
 	private String description;
 	private String blogId;
 	private int postCount;
+	
 	public Long getNo() {
 		return no;
 	}

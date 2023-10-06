@@ -37,17 +37,17 @@ public class UserController {
 	public String join(@ModelAttribute @Valid UserVo userVo, BindingResult result, Model model) {
 		if(result.hasErrors()) {			
 			model.addAllAttributes(result.getModel());
-			return "user/join";
+			return "user/join"; // 유효성 검사 에러가 있으면 다시 회원가입 폼으로 이동
 		}
 		
-		if(userService.join(userVo)) {
-			blogService.insertBlog(userVo);
+		if(userService.join(userVo)) { // 회원가입 하면
+			blogService.insertBlog(userVo); // 해당 사용자의 블로그 생성
 			
 			CategoryVo categoryVo = new CategoryVo();
 			categoryVo.setBlogId(userVo.getId());
 			categoryVo.setName("미분류");
 			categoryVo.setDescription("카테고리를 지정하지 않은 경우");
-			categoryService.insertCategory(categoryVo);
+			categoryService.insertCategory(categoryVo); // default 카테고리 생성
 		}
 		return "redirect:/user/joinsuccess";
 	}

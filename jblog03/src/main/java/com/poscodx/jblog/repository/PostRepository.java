@@ -10,7 +10,6 @@ import com.poscodx.jblog.vo.PostVo;
 
 @Repository
 public class PostRepository {
-
 	@Autowired
 	private SqlSession sqlSession;
 	
@@ -22,12 +21,12 @@ public class PostRepository {
 		return sqlSession.selectOne("post.findByNo", no);
 	}
 
-	public void delete(Long categoryNo) {
-		sqlSession.delete("post.delete", categoryNo);
-	}
-
 	public void insert(PostVo postVo) {
 		sqlSession.insert("post.insert", postVo);
 	}
 
+	public void delete(Long categoryNo) {
+		sqlSession.delete("post.delete", categoryNo);
+	}
+	
 }

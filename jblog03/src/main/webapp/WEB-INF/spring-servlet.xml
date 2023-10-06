@@ -34,6 +34,10 @@
 			<mvc:mapping path="/user/logout" />
 			<bean class="com.poscodx.jblog.security.LogoutInterceptor" />
 		</mvc:interceptor>
+		<mvc:interceptor>
+        	<mvc:mapping path="/**/admin/**" />
+        	<bean class="com.poscodx.jblog.security.AdminInterceptor" />
+    	</mvc:interceptor>
 	</mvc:interceptors>
 
 	<!-- Multipart Resolver -->
@@ -48,8 +52,7 @@
 	</bean>
 
 	<!-- mvc url-resource mapping -->
-	<mvc:resources mapping="/assets/upload-images/**"
-		location="file:/jblog-uploads/" />
+	<mvc:resources mapping="/assets/upload-images/**" location="file:/jblog-uploads/" />
 	
 	<!-- View Resolver -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

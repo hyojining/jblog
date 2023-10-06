@@ -13,11 +13,6 @@ import com.poscodx.jblog.vo.UserVo;
 public class UserRepository {
 	@Autowired
 	private SqlSession sqlSession;
-	
-	public boolean insert(UserVo vo) {
-		int count = sqlSession.insert("user.insert", vo);
-		return count == 1;
-	}
 
 	public UserVo findByIdAndPassword(String id, String password) {
 		Map<String, Object> map = new HashMap<>();
@@ -26,4 +21,10 @@ public class UserRepository {
 		
 		return sqlSession.selectOne("user.findByIdAndPassword", map);
 	}
+	
+	public boolean insert(UserVo userVo) {
+		int count = sqlSession.insert("user.insert", userVo);
+		return count == 1;
+	}
+	
 }

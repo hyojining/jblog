@@ -10,20 +10,19 @@ import com.poscodx.jblog.vo.CategoryVo;
 
 @Service
 public class CategoryService {
-
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	public List<CategoryVo> getCategory(String blogId) {
+		return categoryRepository.findById(blogId);
+	}
 	
 	public void insertCategory(CategoryVo categoryVo) {
 		categoryRepository.insert(categoryVo);
 	}
 
-	public List<CategoryVo> getCategoryById(String blogId) {
-		return categoryRepository.findById(blogId);
-	}
-
 	public void deleteCategory(Long no) {
 		categoryRepository.delete(no);
 	}
-
+	
 }

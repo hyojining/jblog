@@ -19,14 +19,6 @@
 		]]>
 	</select>
 	
-	<delete id="delete" parameterType="long">
-		<![CDATA[
-		delete 
-		  from post
-		 where category_no = #{categoryNo}
-		]]>
-	</delete>
-	
 	<insert id="insert" parameterType="postvo">
 		<![CDATA[
 		insert
@@ -34,4 +26,12 @@
 	    values (null, #{title }, #{contents }, #{categoryNo })
 		]]>
 	</insert>
+	
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+		delete 
+		  from post
+		 where category_no = #{categoryNo}
+		]]>
+	</delete>
 </mapper>

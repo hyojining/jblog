@@ -19,8 +19,8 @@ public class BlogRepository {
 		sqlSession.insert("blog.insert", blogVo);
 	}
 
-	public void update(BlogVo vo) {
-		sqlSession.update("blog.update", vo);
+	public void update(BlogVo blogVo) {
+		sqlSession.update("blog.update", blogVo);
 	}
-
+	
 }
