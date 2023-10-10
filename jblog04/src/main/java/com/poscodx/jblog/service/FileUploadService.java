@@ -6,21 +6,25 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.poscodx.jblog.exception.FileUploadServiceException;
 
 @Service
+@PropertySource("classpath:com/poscodx/jblog/config/web/fileupload.properties")
 public class FileUploadService {
-	private static String SAVE_PATH = "/jblog-uploads";
-	private static String URL_PATH = "/assets/upload-images";
+	@Autowired
+	private Environment env;
 	
 	public String restore(MultipartFile file) {
 		String url = null;
 		
 		try {
-			File uploadDirectory = new File(SAVE_PATH); // 업로드할 파일을 저장할 디렉토리 지정
+			File uploadDirectory = new File(env.getProperty("fileupload.uploadLocation")); // 업로드할 파일을 저장할 디렉토리 지정
 			if(!uploadDirectory.exists()) {
 				uploadDirectory.mkdirs();
 			}
@@ -39,11 +43,11 @@ public class FileUploadService {
 			System.out.println("########" + fileSize);
 			
 			byte[] data = file.getBytes(); // 업로드할 파일의 데이터를 바이트 배열로 읽어오기
-			OutputStream os = new FileOutputStream(SAVE_PATH + "/" + saveFilename); // 파일을 디스크에 저장하기 위한 OutputStream 생성
+			OutputStream os = new FileOutputStream(env.getProperty("fileupload.uploadLocation") + "/" + saveFilename); // 파일을 디스크에 저장하기 위한 OutputStream 생성
 			os.write(data); // OutputStream을 통해 파일로 데이터를 저장
 			os.close();
 			
-			url = URL_PATH + "/" + saveFilename; // 파일이 저장된 경로를 기반으로 파일에 접근할 수 있는 URL 생성
+			url = env.getProperty("fileupload.resourceUrl") + "/" + saveFilename; // 파일이 저장된 경로를 기반으로 파일에 접근할 수 있는 URL 생성
 			
 		} catch (IOException ex) {
 			throw new FileUploadServiceException(ex.toString());
