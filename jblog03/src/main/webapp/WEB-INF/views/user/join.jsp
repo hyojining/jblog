@@ -48,8 +48,12 @@
 				<label class="l-float">서비스 약관에 동의합니다.</label>
 			</fieldset>
 
-			<input type="submit" value="가입하기">
+			<c:if test="${joinUser != null && !joinUser}" >
+				<p style="color: #f00">기존에 존재하는 ID 입니다. 다시 입력해 주세요.</p>
+			</c:if>
 
+			<input type="submit" value="가입하기">
+			
 		</form:form>
 	</div>
 </body>

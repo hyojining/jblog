@@ -27,11 +27,15 @@ public class UserService {
 	
 	@Transactional
 	public boolean join(UserVo userVo, CategoryVo categoryVo) {
-		userRepository.insert(userVo);
-		blogRepository.insert(userVo);
-		categoryRepository.insert(categoryVo);
-		
-		return true;
+		int checkUser=userRepository.checkUser(userVo.getId());
+		if(checkUser == 0) {
+			userRepository.insert(userVo);
+			blogRepository.insert(userVo);
+			categoryRepository.insert(categoryVo);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

@@ -26,5 +26,10 @@ public class UserRepository {
 		int count = sqlSession.insert("user.insert", userVo);
 		return count == 1;
 	}
+
+	public int checkUser(String id) {
+		int count = sqlSession.selectOne("user.checkId", id);
+		return count;
+	}
 	
 }

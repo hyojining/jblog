@@ -18,4 +18,12 @@
 	    values (#{id }, #{name }, password(#{password }))
 		]]>
 	</insert>
+	
+	<select id="checkId" resultType="int" parameterType="String">
+		<![CDATA[
+		select count(*)
+		  from user
+		 where id = #{id}
+		]]>
+	</select>
 </mapper>

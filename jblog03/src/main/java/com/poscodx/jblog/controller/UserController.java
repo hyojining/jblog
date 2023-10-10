@@ -29,6 +29,8 @@ public class UserController {
 	public String join(@ModelAttribute @Valid UserVo userVo, BindingResult result, Model model) {
 		if(result.hasErrors()) {			
 			model.addAllAttributes(result.getModel());
+			model.addAttribute("joinUser", true);
+			
 			return "user/join"; // 유효성 검사 에러가 있으면 다시 회원가입 폼으로 이동
 		}
 		
@@ -37,9 +39,13 @@ public class UserController {
 		categoryVo.setName("미분류");
 		categoryVo.setDescription("카테고리를 지정하지 않은 경우");
 		
-		if(userService.join(userVo, categoryVo)) {
+		boolean joinUser = userService.join(userVo, categoryVo);
+		if(joinUser) {
 			return "redirect:/user/joinsuccess";
 		} else {
+			System.out.println("기존에 존재하는 id 입니다. 다른 id로 입력하세요");
+			model.addAttribute("joinUser", joinUser);
+			
 			return "user/join";
 		}
 	}
