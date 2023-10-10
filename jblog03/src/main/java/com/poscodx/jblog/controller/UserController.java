@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.poscodx.jblog.service.BlogService;
-import com.poscodx.jblog.service.CategoryService;
 import com.poscodx.jblog.service.UserService;
 import com.poscodx.jblog.vo.CategoryVo;
 import com.poscodx.jblog.vo.UserVo;
@@ -21,12 +19,6 @@ import com.poscodx.jblog.vo.UserVo;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private BlogService blogService;
-	
-	@Autowired
-	private CategoryService categoryService;
 	
 	@RequestMapping(value="/join", method=RequestMethod.GET)
 	public String join(@ModelAttribute UserVo userVo) {
@@ -40,16 +32,16 @@ public class UserController {
 			return "user/join"; // 유효성 검사 에러가 있으면 다시 회원가입 폼으로 이동
 		}
 		
-		if(userService.join(userVo)) { // 회원가입 하면
-			blogService.insertBlog(userVo); // 해당 사용자의 블로그 생성
-			
-			CategoryVo categoryVo = new CategoryVo();
-			categoryVo.setBlogId(userVo.getId());
-			categoryVo.setName("미분류");
-			categoryVo.setDescription("카테고리를 지정하지 않은 경우");
-			categoryService.insertCategory(categoryVo); // default 카테고리 생성
+		CategoryVo categoryVo = new CategoryVo();
+		categoryVo.setBlogId(userVo.getId());
+		categoryVo.setName("미분류");
+		categoryVo.setDescription("카테고리를 지정하지 않은 경우");
+		
+		if(userService.join(userVo, categoryVo)) {
+			return "redirect:/user/joinsuccess";
+		} else {
+			return "user/join";
 		}
-		return "redirect:/user/joinsuccess";
 	}
 	
 	@RequestMapping(value="/joinsuccess", method=RequestMethod.GET)

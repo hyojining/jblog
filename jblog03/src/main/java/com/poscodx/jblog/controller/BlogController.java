@@ -116,7 +116,6 @@ public class BlogController {
 	
 	@RequestMapping("/admin/category/delete/{no}")
 	public String delete(@PathVariable("id") String blogId,	@PathVariable("no") Long no) {
-		postService.deletePost(no);
 		categoryService.deleteCategory(no);
 		
 		return "redirect:/" + blogId + "/admin/category";

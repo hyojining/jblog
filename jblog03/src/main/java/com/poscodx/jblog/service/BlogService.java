@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.poscodx.jblog.repository.BlogRepository;
 import com.poscodx.jblog.vo.BlogVo;
-import com.poscodx.jblog.vo.UserVo;
 
 @Service
 public class BlogService {
@@ -16,13 +15,13 @@ public class BlogService {
 		return blogRepository.findById(blogId);
 	}
 	
-	public void insertBlog(UserVo userVo) {
-		BlogVo blogVo = new BlogVo();
-		blogVo.setBlogId(userVo.getId());
-		blogVo.setImage("/assets/images/spring-logo.jpg");
-		blogVo.setTitle(userVo.getName()+" 블로그");
-		blogRepository.insert(blogVo);
-	}
+//	public void insertBlog(UserVo userVo) {
+//		BlogVo blogVo = new BlogVo();
+//		blogVo.setBlogId(userVo.getId());
+//		blogVo.setImage("/assets/images/spring-logo.jpg");
+//		blogVo.setTitle(userVo.getName()+" 블로그");
+//		blogRepository.insert(blogVo);
+//	}
 
 	public void updateAdminBasic(BlogVo blogVo) {
 		blogRepository.update(blogVo);

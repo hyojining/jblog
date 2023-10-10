@@ -24,9 +24,5 @@ public class PostService {
 	public void insertPost(PostVo postVo) {
 		postRepository.insert(postVo);
 	}
-
-	public void deletePost(Long categoryNo) {
-		postRepository.delete(categoryNo);
-	}
 	
 }
