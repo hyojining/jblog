@@ -1,19 +1,46 @@
 package com.poscodx.jblog.config;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.poscodx.jblog.config.web.FileuploadConfig;
-import com.poscodx.jblog.config.web.MessageSourceConfig;
-import com.poscodx.jblog.config.web.MvcConfig;
-import com.poscodx.jblog.config.web.SecurityConfig;
+import com.poscodx.jblog.security.AdminInterceptor;
+import com.poscodx.jblog.security.LoginInterceptor;
+import com.poscodx.jblog.security.LogoutInterceptor;
 
-@Configuration
-@EnableAspectJAutoProxy
-@ComponentScan({"com.poscodx.jblog.controller"})
-@Import({MvcConfig.class, SecurityConfig.class, FileuploadConfig.class, MessageSourceConfig.class})
-public class WebConfig {
+@SpringBootConfiguration
+public class WebConfig implements WebMvcConfigurer {
+	
+	// Interceptors
+	@Bean
+	public HandlerInterceptor loginInterceptor() {
+		return new LoginInterceptor();
+	}
 
+	@Bean
+	public HandlerInterceptor logoutInterceptor() {
+		return new LogoutInterceptor();
+	}
+
+	@Bean
+	public HandlerInterceptor adminInterceptor() {
+		return new AdminInterceptor();
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry
+			.addInterceptor(loginInterceptor())
+			.addPathPatterns("/user/auth");
+		
+		registry
+			.addInterceptor(logoutInterceptor())
+			.addPathPatterns("/user/logout");
+		
+		registry
+			.addInterceptor(adminInterceptor())
+			.addPathPatterns("/**/admin/**");
+	}
 }
