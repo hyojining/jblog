@@ -1,4 +1,4 @@
-package com.poscodx.mysite.initializer;
+package com.poscodx.jblog.initializer;
 
 import javax.servlet.Filter;
 
@@ -12,7 +12,7 @@ import com.poscodx.jblog.config.AppConfig;
 import com.poscodx.jblog.config.WebConfig;
 
 
-public class MySiteWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class JBlogWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
